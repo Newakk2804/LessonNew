@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "SAcei1x3SNwChzaHQK22sgR/k/EdHoJ+L9O/9SvZUd897b+VDlmJaJ28Omo/uC2Nrh1k3BlHB1QrHY+lWaLERQ==",
+  "dgSpecHash": "s1SiCKs8pnsrpuBhq5KwGgRu/fBOClfOY0dmI3xdn3pxxtqEMTtYODBSF+k1mmOm0RTMcF0WsTBGOIakLrYPiw==",
   "success": true,
-  "projectFilePath": "E:\\с#\\Modul9\\Modul9\\Modul9.csproj",
+  "projectFilePath": "D:\\с#\\Git\\Modul9\\Modul9\\Modul9.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Даниил\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
-    "C:\\Users\\Даниил\\.nuget\\packages\\telegram.bot\\18.0.0\\telegram.bot.18.0.0.nupkg.sha512"
+    "C:\\Users\\Daniil\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\Daniil\\.nuget\\packages\\telegram.bot\\18.0.0\\telegram.bot.18.0.0.nupkg.sha512"
   ],
   "logs": []
 }
