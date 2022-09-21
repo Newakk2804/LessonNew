@@ -91,11 +91,25 @@ async Task HandleMessage(ITelegramBotClient botClient, Message message) //мет
                         new[]
             {
                 InlineKeyboardButton.WithCallbackData("Download Video", "Download_Video"),
-                InlineKeyboardButton.WithCallbackData("Download Audio", "Audio"),
+                InlineKeyboardButton.WithCallbackData("Download Audio", "Download_Audio"),
             },
         });
         await botClient.SendTextMessageAsync(message.Chat.Id, "Choose inline:", replyMarkup: keyboard);
         return;
+    }
+    string[] DirectoryPhoto = System.IO.Directory.GetFiles(@"Files\Photo\");
+    string namePhoto = "";
+    foreach (var item in DirectoryPhoto)
+    {
+        FileInfo PhotoInfo = new FileInfo(item);
+        namePhoto = PhotoInfo.Name;
+        if (message.Text == namePhoto)
+        {
+            await using Stream stream = System.IO.File.OpenRead($@"Files\Photo\{namePhoto}");
+            await botClient.SendPhotoAsync(message.Chat.Id, stream);
+            await botClient.SendTextMessageAsync(message.Chat.Id, "Take your photo");
+            return;
+        }
     }
     await botClient.SendTextMessageAsync(message.Chat.Id, $"You said: \n{message.Text}");
     return;
@@ -155,7 +169,21 @@ async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callb
 {
     if (callbackQuery.Data.StartsWith("Download_Photo"))
     {
-        await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Список Фото");
+        string[] ReposFilePhoto = System.IO.Directory.GetFiles($@"Files\Photo\");
+        string getFilePhoto = "";
+        int i = 1;
+        foreach (var item in ReposFilePhoto)
+        {
+            FileInfo newItem = new FileInfo(item);
+            //getFilePhoto += $"/{item.Replace(item, "Photo")}{i++} Время создания файла: {newItem.CreationTime}\n";
+            getFilePhoto += $"/\n{newItem.Name}\n";
+        }
+        await botClient.SendTextMessageAsync
+            (
+            callbackQuery.Message.Chat.Id,
+            $"Всего фотографий: {ReposFilePhoto.Length}\nСписок Фото:\n {getFilePhoto}\n" +
+            $"Cкопируй название файла который ты хочешь скачать и отправь мне!"
+            );
         return;
     }
     if (callbackQuery.Data.StartsWith("Download_Documnet"))

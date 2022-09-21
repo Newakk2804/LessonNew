@@ -2,11 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\Modul9",
-    "\\Modul9\\Modul9",
-    "\\Modul9\\Modul9\\obj",
-    "\\Modul9\\Modul9\\obj\\Debug",
-    "\\Modul9\\Modul9\\obj\\Debug\\net6.0"
+    "\\Modul9\\Modul9"
   ],
-  "SelectedNode": "\\Modul9\\Modul9\\Modul9.csproj",
+  "SelectedNode": "\\Modul9\\Modul9.sln",
   "PreviewInSolutionExplorer": false
 }
