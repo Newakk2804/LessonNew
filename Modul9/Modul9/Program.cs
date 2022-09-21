@@ -22,7 +22,7 @@ async Task Update(ITelegramBotClient botClient, Update update, CancellationToken
         return;
     }
 
-    if(update.Message.Photo != null || update.Message.Audio != null || update.Message.Document != null || update.Message.Video != null)
+    if(update?.Message?.Photo != null || update?.Message?.Audio != null || update?.Message?.Document != null || update?.Message?.Video != null)
     {
         await HandleOtherMessage(botClient, update.Message);
         return;
