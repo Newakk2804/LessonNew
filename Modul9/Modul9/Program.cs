@@ -34,7 +34,7 @@ async Task Update(ITelegramBotClient botClient, Update update, CancellationToken
         return;
     }
 }
-async Task HandleMessage(ITelegramBotClient botClient, Message message)
+async Task HandleMessage(ITelegramBotClient botClient, Message message) //метод обработки сообщения
 {
     Console.WriteLine(message);
     if(message.Text == "/start")
