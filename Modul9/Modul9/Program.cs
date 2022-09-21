@@ -36,7 +36,6 @@ async Task Update(ITelegramBotClient botClient, Update update, CancellationToken
 }
 async Task HandleMessage(ITelegramBotClient botClient, Message message) //метод обработки сообщения
 {
-    Console.WriteLine(message);
     if(message.Text == "/start")
     {
         botClient.SendTextMessageAsync(message.Chat.Id, text: "Choose commands: /DownloadFile || /UploadFile");
@@ -98,7 +97,13 @@ async Task HandleMessage(ITelegramBotClient botClient, Message message) //мет
         return;
     }
     string[] DirectoryPhoto = System.IO.Directory.GetFiles(@"Files\Photo\");
+    string[] DirectoryDocument = System.IO.Directory.GetFiles(@"Files\Document\");
+    string[] DirectoryVideo = System.IO.Directory.GetFiles(@"Files\Video\");
+    string[] DirectoryAudio = System.IO.Directory.GetFiles(@"Files\Audio\");
     string namePhoto = "";
+    string nameDocument = "";
+    string nameVideo = "";
+    string nameAudio = "";
     foreach (var item in DirectoryPhoto)
     {
         FileInfo PhotoInfo = new FileInfo(item);
@@ -108,6 +113,42 @@ async Task HandleMessage(ITelegramBotClient botClient, Message message) //мет
             await using Stream stream = System.IO.File.OpenRead($@"Files\Photo\{namePhoto}");
             await botClient.SendPhotoAsync(message.Chat.Id, stream);
             await botClient.SendTextMessageAsync(message.Chat.Id, "Take your photo");
+            return;
+        }
+    }
+    foreach (var item in DirectoryDocument)
+    {
+        FileInfo DocumentInfo = new FileInfo(item);
+        nameDocument = DocumentInfo.Name;
+        if(message.Text == nameDocument)
+        {
+            await using Stream stream = System.IO.File.OpenRead($@"Files\Document\{nameDocument}");
+            await botClient.SendDocumentAsync(message.Chat.Id, stream);
+            await botClient.SendTextMessageAsync(message.Chat.Id, "Take your document");
+            return;
+        }
+    }
+    foreach (var item in DirectoryVideo)
+    {
+        FileInfo VideoInfo = new FileInfo(item);
+        nameVideo = VideoInfo.Name;
+        if (message.Text == nameVideo)
+        {
+            await using Stream stream = System.IO.File.OpenRead($@"Files\Video\{nameVideo}");
+            await botClient.SendVideoAsync(message.Chat.Id, stream);
+            await botClient.SendTextMessageAsync(message.Chat.Id, "Take your video");
+            return;
+        }
+    }
+    foreach (var item in DirectoryAudio)
+    {
+        FileInfo AudioInfo = new FileInfo(item);
+        nameAudio = AudioInfo.Name;
+        if (message.Text == nameAudio)
+        {
+            await using Stream stream = System.IO.File.OpenRead($@"Files\Audio\{nameAudio}");
+            await botClient.SendAudioAsync(message.Chat.Id, stream);
+            await botClient.SendTextMessageAsync(message.Chat.Id, "Take your audio");
             return;
         }
     }
@@ -123,7 +164,7 @@ async Task HandleOtherMessage(ITelegramBotClient botClient, Message message)
         var FileInfo = await botClient.GetFileAsync(FileId);
         var FilePath = FileInfo.FilePath;
 
-        string destinationFilePath = $@"Files\Photo\_{FileId}.jpg";
+        string destinationFilePath = $@"Files\Photo\{FileId}.jpg";
         await using FileStream fs = System.IO.File.OpenWrite(destinationFilePath);
         await botClient.DownloadFileAsync(FilePath, destination: fs);
         await botClient.SendTextMessageAsync(message.Chat.Id, "Photo downloaded");
@@ -134,7 +175,7 @@ async Task HandleOtherMessage(ITelegramBotClient botClient, Message message)
         var FileId = message.Document.FileId;
         var FileInfo = await botClient.GetFileAsync(FileId);
         var FilePath = FileInfo.FilePath;
-        string destinationFilePath = $@"Files\Document\_{message.Document.FileName}";
+        string destinationFilePath = $@"Files\Document\{message.Document.FileName}";
         await using FileStream fs = System.IO.File.OpenWrite(destinationFilePath);
         await botClient.DownloadFileAsync(FilePath, destination: fs);
         await botClient.SendTextMessageAsync(message.Chat.Id, "Document downloaded");
@@ -145,7 +186,7 @@ async Task HandleOtherMessage(ITelegramBotClient botClient, Message message)
         var FileId = message.Audio.FileId;
         var FileInfo = await botClient.GetFileAsync(FileId);
         var FilePath = FileInfo.FilePath;
-        string destinationFilePath = $@"Files\Audio\_{message.Audio.FileName}";
+        string destinationFilePath = $@"Files\Audio\{message.Audio.FileName}";
         await using FileStream fs = System.IO.File.OpenWrite(destinationFilePath);
         await botClient.DownloadFileAsync(FilePath, destination: fs);
         await botClient.SendTextMessageAsync(message.Chat.Id, "Audio downloaded");
@@ -156,7 +197,7 @@ async Task HandleOtherMessage(ITelegramBotClient botClient, Message message)
         var FileId = message.Video.FileId;
         var FileInfo = await botClient.GetFileAsync(FileId);
         var FilePath = FileInfo.FilePath;
-        string destinationFilePath = $@"Files\Video\_{message.Video.FileName}";
+        string destinationFilePath = $@"Files\Video\{message.Video.FileName}";
         await using FileStream fs = System.IO.File.OpenWrite(destinationFilePath);
         await botClient.DownloadFileAsync(FilePath, destination: fs);
         await botClient.SendTextMessageAsync(message.Chat.Id, "Video downloaded");
@@ -171,38 +212,60 @@ async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callb
     {
         string[] ReposFilePhoto = System.IO.Directory.GetFiles($@"Files\Photo\");
         string getFilePhoto = "";
-        int i = 1;
         foreach (var item in ReposFilePhoto)
         {
             FileInfo newItem = new FileInfo(item);
-            //getFilePhoto += $"/{item.Replace(item, "Photo")}{i++} Время создания файла: {newItem.CreationTime}\n";
             getFilePhoto += $"/\n{newItem.Name}\n";
         }
         await botClient.SendTextMessageAsync
             (
             callbackQuery.Message.Chat.Id,
             $"Всего фотографий: {ReposFilePhoto.Length}\nСписок Фото:\n {getFilePhoto}\n" +
-            $"Cкопируй название файла который ты хочешь скачать и отправь мне!"
-            );
+            $"Cкопируй название файла который ты хочешь скачать и отправь мне!");
         return;
     }
-    if (callbackQuery.Data.StartsWith("Download_Documnet"))
+    if (callbackQuery.Data.StartsWith("Download_Document"))
     {
-        await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Список документов");
+        string[] ReposFileDocument = System.IO.Directory.GetFiles($@"Files\Document\");
+        string getFileDocument = "";
+        foreach (var item in ReposFileDocument)
+        {
+            FileInfo newItem = new FileInfo(item);
+            getFileDocument += $"/\n{newItem.Name}\n";
+        }
+        await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, 
+            $"Всего документов: {ReposFileDocument.Length}\nСписок документов:\n{getFileDocument}\n" +
+            $"Скопируй название файла который ты хочешь скачать и отправь мне!");
         return;
     }
     if (callbackQuery.Data.StartsWith("Download_Video"))
     {
-        await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Список видео");
+        string[] ReposFileVideo= System.IO.Directory.GetFiles($@"Files\Video\");
+        string getFileVideo = "";
+        foreach (var item in ReposFileVideo)
+        {
+            FileInfo newItem = new FileInfo(item);
+            getFileVideo += $"/\n{newItem.Name}\n";
+        }
+        await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
+            $"Всего видеороликов: {ReposFileVideo.Length}\nСписок видеороликов:\n{getFileVideo}\n" +
+            $"Скопируй название файла который ты хочешь скачать и отправь мне!");
         return;
     }
-    if (callbackQuery.Data.StartsWith("Download_Music"))
+    if (callbackQuery.Data.StartsWith("Download_Audio"))
     {
-        await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Список музыки");
+        string[] ReposFileAudio = System.IO.Directory.GetFiles($@"Files\Audio\");
+        string getFileAudio = "";
+        foreach (var item in ReposFileAudio)
+        {
+            FileInfo newItem = new FileInfo(item);
+            getFileAudio += $"/\n{newItem.Name}\n";
+        }
+        await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
+            $"Всего аудиофайлов: {ReposFileAudio.Length}\nСписок аудиофайлов:\n{getFileAudio}\n" +
+            $"Скопируй название файла который ты хочешь скачать и отправь мне!");
         return;
     }
-    await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"You choose with data: {callbackQuery.Data}");
-    return;
 }
 
 

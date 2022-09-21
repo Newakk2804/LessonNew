@@ -81,19 +81,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Даниил\\.nuget\\packages\\": {}
+    "C:\\Users\\Daniil\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\с#\\Git\\Modul9\\Modul9\\Modul9.csproj",
+      "projectUniqueName": "D:\\с#\\Git\\Modul9\\Modul9\\Modul9.csproj",
       "projectName": "Modul9",
-      "projectPath": "E:\\с#\\Git\\Modul9\\Modul9\\Modul9.csproj",
-      "packagesPath": "C:\\Users\\Даниил\\.nuget\\packages\\",
-      "outputPath": "E:\\с#\\Git\\Modul9\\Modul9\\obj\\",
+      "projectPath": "D:\\с#\\Git\\Modul9\\Modul9\\Modul9.csproj",
+      "packagesPath": "C:\\Users\\Daniil\\.nuget\\packages\\",
+      "outputPath": "D:\\с#\\Git\\Modul9\\Modul9\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Даниил\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "D:\\Games\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -130,8 +130,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -140,7 +139,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
