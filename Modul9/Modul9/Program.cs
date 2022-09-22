@@ -233,7 +233,7 @@ async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callb
             FileInfo newItem = new FileInfo(item);
             getFileDocument += $"/\n{newItem.Name}\n";
         }
-        await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, 
+        await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
             $"Всего документов: {ReposFileDocument.Length}\nСписок документов:\n{getFileDocument}\n" +
             $"Скопируй название файла который ты хочешь скачать и отправь мне!");
         return;
