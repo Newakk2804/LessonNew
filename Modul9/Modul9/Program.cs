@@ -38,45 +38,39 @@ async Task HandleMessage(ITelegramBotClient botClient, Message message) //мет
 {
     if(message.Text == "/start")
     {
-        botClient.SendTextMessageAsync(message.Chat.Id, text: "Choose commands: /DownloadFile || /UploadFile");
+        botClient.SendTextMessageAsync(message.Chat.Id, text: "Этот бот позволит тебе хранить любые файлы, " +
+            "которые ты ему отправишь и в дальнейшем сможешь скачать их.\nЕсли ты еще не пользовался этим ботом, " +
+            "то может отправить любой файл, который он сохранит в недрах своего сервера, для этого выбери команду /UploadFile." +
+            "\nЕсли ты уже отправлял какие-либо файлы, и хочешь скачать их, то выбери команду /DownloadFile");
         return;
     }
 
     if (message.Text == "/UploadFile")
     {
-        ReplyKeyboardMarkup keyboard = new(new[]
-        {
-            new KeyboardButton[] { "Upload Photo", "Upload Document" },
-            new KeyboardButton[] { "Upload Video", "Upload Audio" }
-        })
-        {
-            ResizeKeyboard = true
-        };
-
-        await botClient.SendTextMessageAsync(message.Chat.Id, "Choose:", replyMarkup: keyboard);
+        await botClient.SendTextMessageAsync(message.Chat.Id, "Отправь любой файл, который должен сохранить бот:");
         return;
     }
 
-    if (message.Text == "Upload Photo")
-    {
-        await botClient.SendTextMessageAsync(message.Chat.Id, "Send a photo");
-        return;
-    }
-    else if (message.Text == "Upload Document")
-    {
-        await botClient.SendTextMessageAsync(message.Chat.Id, "Send a documnet");
-        return;
-    }
-    else if (message.Text == "Upload Video")
-    {
-        await botClient.SendTextMessageAsync(message.Chat.Id, "Send a video");
-        return;
-    }
-    else if (message.Text == "Upload Audio")
-    {
-        await botClient.SendTextMessageAsync(message.Chat.Id, "Send a audio");
-        return;
-    }
+    //if (message.Text == "Upload Photo")
+    //{
+    //    await botClient.SendTextMessageAsync(message.Chat.Id, "Send a photo");
+    //    return;
+    //}
+    //else if (message.Text == "Upload Document")
+    //{
+    //    await botClient.SendTextMessageAsync(message.Chat.Id, "Send a documnet");
+    //    return;
+    //}
+    //else if (message.Text == "Upload Video")
+    //{
+    //    await botClient.SendTextMessageAsync(message.Chat.Id, "Send a video");
+    //    return;
+    //}
+    //else if (message.Text == "Upload Audio")
+    //{
+    //    await botClient.SendTextMessageAsync(message.Chat.Id, "Send a audio");
+    //    return;
+    //}
 
     if (message.Text == "/DownloadFile")
     {
@@ -227,7 +221,7 @@ async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callb
     if (callbackQuery.Data.StartsWith("Download_Document"))
     {
         string[] ReposFileDocument = System.IO.Directory.GetFiles($@"Files\Document\");
-        string getFileDocument = "";
+        string getFileDocument = ""; 
         foreach (var item in ReposFileDocument)
         {
             FileInfo newItem = new FileInfo(item);
